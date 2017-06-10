@@ -1,0 +1,15 @@
+﻿<Window x:Class="skilltest.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:skilltest"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="704" Width="1127.111">
+	<Grid>
+		<TextBox x:Name="output_1" HorizontalAlignment="Left" Height="261" Margin="770,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="302" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" IsReadOnly="True" Focusable="False" TextChanged="output_1_TextChanged"/>
+		<Button x:Name="btn_skill_1" Content="Skill_1" HorizontalAlignment="Left" Margin="41,544,0,0" VerticalAlignment="Top" Width="78" Height="70" Click="btn_skill_1_Click"/>
+		<Label x:Name="lab_mana" Content="0" HorizontalAlignment="Left" Margin="41,105,0,0" VerticalAlignment="Top" Height="41" Width="118" FontSize="20" FontWeight="Bold"/>
+
+	</Grid>
+</Window>
