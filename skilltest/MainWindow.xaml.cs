@@ -25,25 +25,34 @@ namespace skilltest
     {
         bool ifrun = true;
         int dt_val_1 = 1;
-        Player player1 = new Player();
-        
         int dmg_val = 0;
+        string skill_str;
         int skill_num;
         string key_name = "start";
         Border[] bdr = new Border[30];
         Random r = new Random();
         DispatcherTimer dt1 = new DispatcherTimer();
         DispatcherTimer dt2 = new DispatcherTimer();
-        double deltdt;
+        //double deltdt_mil;
+        //double deltdt_sec;
         DateTime nowdt;
+        Player player1 = new Player();
+        Skill skill_1 = new Skill();
+
+
         public MainWindow()
         {
             InitializeComponent();
+
+
             nowdt = DateTime.Now;
             //detdt = DateTime.Now - DateTime.Now;
             dt1.Interval = TimeSpan.FromMilliseconds(dt_val_1);
             dt1.Tick += new EventHandler(update);
             this.KeyDown += new KeyEventHandler(keyevent);
+
+            player1.Re_Event += new Action<int>(Play_Re_Event);
+            skill_1.Re_Event += new Action<int>(Play_Re_Event);
             dt1.Start();
         }
 
@@ -55,23 +64,8 @@ namespace skilltest
         }
         private void do_skill()
         {
-            if (0 == player1.skill_1(ref dmg_val))
-            {
-                output_1.Text += dmg_val.ToString() + "\r\n";
-                player1.mana -= player1.mana - player1.skill_1_mana;
-            }
-            else if (-1 == player1.skill_1(ref dmg_val))
-            {
-                output_1.Text += string.Format("[{0:HH:MM:ss.fff}]: ", DateTime.Now) + "技能CD中！" + "\r\n";
-            }
-            else if (-2 == player1.skill_1(ref dmg_val))
-            {
-                output_1.Text += string.Format("[{0:HH:MM:ss.fff}]: ", DateTime.Now) + "魔法不足！" + "\r\n";
-            }
-            else if (-3 == player1.skill_1(ref dmg_val))
-            {
-                output_1.Text += string.Format("[{0:HH:MM:ss.fff}]: ", DateTime.Now) + "当前状态无法施法！" + "\r\n";
-            }
+            skill_1.skill_1(ref skill_str);
+            output_1.Text += skill_str + "\r\n";
         }
 
 
@@ -91,26 +85,50 @@ namespace skilltest
                 ifrun = false;
             }
         }
-        void update(object sender, EventArgs e)
+        void update_play(object sender, EventArgs e)
         {
+            double deltdt_mil;
+            TimeSpan dt_up = DateTime.Now - nowdt;
+            deltdt_mil = dt_up.TotalMilliseconds;
+            if (deltdt_mil >= 2000)
+            {
+                player1.RestoreMana();
+                nowdt = DateTime.Now;
+
+            }
+        }
+        void update_skill(object sender, EventArgs e)
+        {
+            double deltdt_sec;
+            TimeSpan dt_up = DateTime.Now - nowdt;
+            deltdt_sec = dt_up.TotalSeconds;
+            float dt_to_cd = (float)deltdt_sec;
+            float re_temp = skill_1.RestoreCD(dt_to_cd);
+
             if (ifrun == true)
             {
-                deltdt = (DateTime.Now - nowdt).TotalMilliseconds;
-                if (deltdt >= 500)
+                if (re_temp > 0)
                 {
-                    if (player1.mana < 100)
-                    {
-                        player1.mana +=  1;
-                    }
-                    nowdt = DateTime.Now;
-                    output_1.Text += string.Format("[{0:HH:MM:ss.fff}]: ", DateTime.Now) + deltdt + "\r\n";
+                    output_1.Text += string.Format("[{0:HH:MM:ss.fff}]: ", DateTime.Now) + re_temp + "\r\n";
+
                 }
             }
 
-            lab_mana.Content = player1.mana.ToString();
-
         }
 
+        void Play_Re_Event(int obj)
+        {
+            
+            lab_mana.Content = obj;
+        }
+        void Skill_Re_Event(int obj)
+        {
+            lab_mana.Content = obj;
+        }
 
+        private void btn_clear_Click(object sender, RoutedEventArgs e)
+        {
+            output_1.Text = null;
+        }
     }
 }

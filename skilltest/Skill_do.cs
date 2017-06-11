@@ -9,26 +9,7 @@ namespace skilltest
 {
     public class Skill_do
     {
-        public const int WM_KEYDOWN = 0x100;
-
-        [DllImport("user32.dll", EntryPoint = "PostMessageW")]
-        public static extern int PostMessage(int hwnd, int wMsg, int wParam, int lParam);
-
-        [DllImport("user32.dll")]
-        public static extern int GetFocus();
-
-        [DllImport("user32.dll")]
-        public static extern int GetForegroundWindow();
-
-        [DllImport("user32.dll")]
-        public static extern int AttachThreadInput(int idAttach, int idAttachTo, int fAttach);
-
-        [DllImport("user32.dll")]
-        public static extern int GetWindowThreadProcessId(int hwnd, int lpdwProcessId);
-
-        [DllImport("kernel32.dll")]
-        public static extern int GetCurrentThreadId();
-
+       
     }
 }
 

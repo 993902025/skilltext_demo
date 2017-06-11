@@ -10,6 +10,7 @@
 		<TextBox x:Name="output_1" HorizontalAlignment="Left" Height="261" Margin="770,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="302" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" IsReadOnly="True" Focusable="False" TextChanged="output_1_TextChanged"/>
 		<Button x:Name="btn_skill_1" Content="Skill_1" HorizontalAlignment="Left" Margin="41,544,0,0" VerticalAlignment="Top" Width="78" Height="70" Click="btn_skill_1_Click"/>
 		<Label x:Name="lab_mana" Content="0" HorizontalAlignment="Left" Margin="41,105,0,0" VerticalAlignment="Top" Height="41" Width="118" FontSize="20" FontWeight="Bold"/>
+		<Button x:Name="btn_clear" Content="clear" HorizontalAlignment="Left" Margin="660,287,0,0" VerticalAlignment="Top" Width="76" Click="btn_clear_Click"/>
 
 	</Grid>
 </Window>
