@@ -8,31 +8,37 @@ namespace skilltest
 {
     public class Player
     {
-        public static int mana = 10;
+        public static float mana = 10.00f;
         public float gcd;
-        public int skill_1_mana = 0;
-
+        public float skill_1_mana = 10.00f;
+        const float per_milsec_remana = 0.0020f;
         public enum player_state { stand, run, jump };
 
-        public int RestoreMana()
+        public double RestoreMana(double ts)
         {
-            if (Re_Event != null)
-            {
-                Re_Event(mana);
-                if (mana < 100)
+            DateTime this_dt = DateTime.Now;
+
+            
+                if (Re_Event != null)
                 {
-                    mana += 40;
-                    if (mana >= 100)
+                    Re_Event(mana);
+                    if (mana < 100)
                     {
-                        mana = 100;
+                    
+                    
+                        mana += (float)ts * per_milsec_remana;
+                        if (mana >= 100)
+                        {
+                            mana = 100;
+                            return mana;
+                        }
                         return mana;
                     }
-                    return mana;
                 }
-            }
-            return 0;
+                return -1;
+            
         }
-        public event Action<int> Re_Event;
+        public event Action<float> Re_Event;
 
     }
 
@@ -40,7 +46,7 @@ namespace skilltest
     public class Skill : Player
     {
         bool skill_state = true;
-        static float skill_cd = 10;
+        static float skill_cd = 2;
         int damage_val = 100;
 
         public int skill_1(ref string skill_str)
@@ -52,7 +58,7 @@ namespace skilltest
                     if (skill_cd <= 0)
                     {
                         //dmg_val = damage_val;
-                        skill_cd = 10;
+                        skill_cd = 2;
                         mana -= skill_1_mana;
                         Re_Event(mana);
                         skill_str = damage_val.ToString() + "\r\n";
@@ -87,7 +93,7 @@ namespace skilltest
             // }
             //
         }
-        public event Action<int> Re_Event;
+        public event Action<float> Re_Event;
 
 
     }

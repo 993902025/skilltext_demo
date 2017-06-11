@@ -48,12 +48,13 @@ namespace skilltest
             nowdt = DateTime.Now;
             //detdt = DateTime.Now - DateTime.Now;
             dt1.Interval = TimeSpan.FromMilliseconds(dt_val_1);
-            dt1.Tick += new EventHandler(update);
+            dt1.Tick += new EventHandler(update_play);
+            //dt1.Tick += new EventHandler(update_skill);
+            dt1.Start();
             this.KeyDown += new KeyEventHandler(keyevent);
 
-            player1.Re_Event += new Action<int>(Play_Re_Event);
-            skill_1.Re_Event += new Action<int>(Play_Re_Event);
-            dt1.Start();
+            player1.Re_Event += new Action<float>(Play_Re_Event);
+            skill_1.Re_Event += new Action<float>(Play_Re_Event);
         }
 
         private void btn_skill_1_Click(object sender, RoutedEventArgs e)
@@ -76,7 +77,7 @@ namespace skilltest
 
         void keyevent(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.A)
+            if (e.Key == Key.D1)
             {
                 btn_skill_1_Click(this, null);
             }
@@ -88,47 +89,39 @@ namespace skilltest
         void update_play(object sender, EventArgs e)
         {
             double deltdt_mil;
-            TimeSpan dt_up = DateTime.Now - nowdt;
-            deltdt_mil = dt_up.TotalMilliseconds;
-            if (deltdt_mil >= 2000)
-            {
-                player1.RestoreMana();
-                nowdt = DateTime.Now;
-
-            }
-        }
-        void update_skill(object sender, EventArgs e)
-        {
             double deltdt_sec;
             TimeSpan dt_up = DateTime.Now - nowdt;
+
+            deltdt_mil = dt_up.Milliseconds;
+            //Console.WriteLine(deltdt_mil);
+            player1.RestoreMana(deltdt_mil);
+            
+            
             deltdt_sec = dt_up.TotalSeconds;
             float dt_to_cd = (float)deltdt_sec;
             float re_temp = skill_1.RestoreCD(dt_to_cd);
 
-            if (ifrun == true)
-            {
-                if (re_temp > 0)
-                {
-                    output_1.Text += string.Format("[{0:HH:MM:ss.fff}]: ", DateTime.Now) + re_temp + "\r\n";
-
-                }
-            }
-
+            nowdt = DateTime.Now;
         }
+        
 
-        void Play_Re_Event(int obj)
-        {
-            
-            lab_mana.Content = obj;
+        void Play_Re_Event(float obj)
+        {            
+            lab_mana.Content = string.Format("{0:N2}", obj);
         }
-        void Skill_Re_Event(int obj)
+        void Skill_Re_Event(float obj)
         {
-            lab_mana.Content = obj;
+            lab_mana.Content = string.Format("{0:N2}",obj);
         }
 
         private void btn_clear_Click(object sender, RoutedEventArgs e)
         {
             output_1.Text = null;
+        }
+
+        private void btn_skill_2_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
